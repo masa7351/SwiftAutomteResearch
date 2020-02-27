@@ -1,0 +1,6 @@
+xcassets:
+  inputs:
+    - SwiftAutomteResearch/Resources/Images.xcassets
+  outputs:
+    - templateName: swift4
+      output: SwiftAutomteResearch/Generated/assets-images.swift

@@ -1,0 +1,136 @@
+name: SwiftAutomteResearch
+options:
+  xcodeVersion: "11.3.1"
+  deploymentTarget:
+    iOS: '11.0'
+  developmentLanguage: ja
+  bundleIdPrefix: Masanao-Imai
+  createIntermediateGroups: true
+configs:
+  Debug: debug
+  Develop: develop
+  Staging: staging
+  Release: release
+settings:
+  base:
+    SWIFT_VERSION: 5.0
+    PRODUCT_NAME: $TARGET_NAME
+    CURRENT_PROJECT_VERSION: 1
+schemes:
+  SwiftAutomteResearch:
+    build:
+      targets:
+        SwiftAutomteResearch: all
+        SwiftAutomteResearchTests: [test]
+        SwiftAutomteResearchUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+    profile:
+      config: Develop
+    analyze:
+      config: Develop
+    archive:
+      config: Develop
+  SwiftAutomteResearch-staging:
+    build:
+      targets:
+        SwiftAutomteResearch: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    profile:
+      config: Staging
+    analyze:
+      config: Debug
+    archive:
+      config: Staging
+  SwiftAutomteResearch-store:
+    build:
+      targets:
+        SwiftAutomteResearch: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
+targets:
+  SwiftAutomteResearch:
+    type: application
+    platform: iOS
+    sources: SwiftAutomteResearch
+    settings:
+      INFOPLIST_FILE: SwiftAutomteResearch/Info.plist
+    dependencies:
+      - carthage: Kingfisher
+      - carthage: Reusable
+    configs:
+      Debug:
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: iPhone Developer
+        PRODUCT_BUNDLE_IDENTIFIER: Masanao-Imai.SwiftAutomteResearch
+        PRODUCT_NAME: $TARGET_NAME
+      Develop:
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEVELOP
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: iPhone Distribution
+        PRODUCT_BUNDLE_IDENTIFIER: Masanao-Imai.SwiftAutomteResearch
+        PRODUCT_NAME: $TARGET_NAME
+      Staging:
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: STAGING
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: iPhone Distribution
+        PRODUCT_BUNDLE_IDENTIFIER: Masanao-Imai.SwiftAutomteResearch
+        PRODUCT_NAME: $TARGET_NAME
+      Release:
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: RELEASE
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: iPhone Distribution
+        PRODUCT_BUNDLE_IDENTIFIER: Masanao-Imai.SwiftAutomteResearch
+        PRODUCT_NAME: $TARGET_NAME
+    scheme:
+      testTargets:
+        - SwiftAutomteResearchTests
+        - SwiftAutomteResearchUITests
+    prebuildScripts:
+      - name: Run SwiftFormat
+        script: |
+          if which mint >/dev/null; then
+          mint run swiftformat swiftformat .
+          else
+          echo "warning: Mint not installed, download from https://github.com/yonaskolb/Mint"
+          fi
+      - name: Run SwiftLint
+        script: |
+          if which mint >/dev/null; then
+          mint run swiftlint swiftlint
+          else
+          echo "warning: Mint not installed, download from https://github.com/yonaskolb/Mint"
+          fi
+      - name: Run SwiftGen
+        script: |
+          if which mint >/dev/null; then
+          mint run swiftgen swiftgen
+          else
+          echo "warning: Mint not installed, download from https://github.com/yonaskolb/Mint"
+          fi
+  SwiftAutomteResearchTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: SwiftAutomteResearchTests
+    dependencies:
+      - target: SwiftAutomteResearch
+  SwiftAutomteResearchUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: SwiftAutomteResearchUITests
+    dependencies:
+      - target: SwiftAutomteResearch
